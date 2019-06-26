@@ -5,32 +5,33 @@ int main(int argc, char *argv[])
 {
 
 	std::map<std::string, infoBlock*> b;
-	int status = 0;
-	while(0 == 0) {
-		menu(b);
-	}
-	if(status == 1) {
-		std::cout << "Exiting... Have a nice day!" << std::endl;
-	}
+	menu(b);
 }
 
 void menu(std::map<std::string, infoBlock*> &b) {
 	int opt = 0;
-	std::cout << "Please Select an option\n\t1) Sign In\n\t2) Sign Out\n\t3) List all signed in\n";
-	std::cin >> opt;
-	if (opt == 1) {
-		cout << "map size: " << b.size() << endl;
-		signIn(b);
-		cout << "map size: " << b.size() << endl;
+	while(true) {
+		std::cout << "Please Select an option\n\t1) Sign In\n\t2) Sign Out\n\t3) List all signed in\n";
+		std::cin >> opt;
+		if (opt == 1) {
+			cout << "map size: " << b.size() << endl;
+			signIn(b);
+			cout << "map size: " << b.size() << endl;
 
-	} else if (opt == 2) {
-		signOut(b);
-	} else if (opt == 15){
-		return;
-	} else if(opt == 3) {
-		printSignedIn(b);		
-	}else {
-		std::cout << "Invalid Option!";
+		} else if (opt == 2) {
+			signOut(b);
+		} else if (opt == 15){
+			writeOut(b);
+			return;
+		} else if(opt == 3) {
+			printSignedIn(b);		
+		}else {
+			std::cout << "Invalid Option!";
+			opt = 0;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			std::fflush(stdin);
+		}
 	}
 	return;
 }
@@ -65,8 +66,24 @@ void  signOut(std::map<std::string, infoBlock*> &b) {
 void printSignedIn(std::map<std::string, infoBlock*> &b) {
 	for (auto const& x : b) {
 		if(x.second->timeOut.compare("-0:-0") == 0) {
-				std::cout << '\t' << x.first << '\t' << x.second->Name 
+			std::cout << '\t' << x.first << '\t' << x.second->Name 
 				<< '\t' << x.second->timeIn << '\t' << x.second->timeOut << endl;
-			}
 		}
+	}
+}
+
+void writeOut(std::map<std::string, infoBlock*> &b) {
+	std::string filename = "Sign_in_sheet_" + monthDayYear();	
+	std::string comma = ", ";
+	ofstream outfile;
+	outfile.open(filename);
+	outfile << "Student Id, " << "Name, " << "Date, " << "Time In, " 
+		<< "Time Out" << endl;
+	for(auto const& x : b) {
+		outfile << x.first << comma 
+			<< x.second->Name << comma 
+			<< x.second->opDate << comma
+			<< x.second->timeIn << comma
+			<< x.second->timeOut << endl;	
+	}
 }

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iomanip>
 #include <map>
+#include <fstream>
 using namespace std;
 
 
@@ -39,6 +40,7 @@ void signIn(std::map<std::string, infoBlock*> &b);
 void signOut(std::map<std::string, infoBlock*> &b);
 void menu(std::map<std::string, infoBlock*> &b);
 void printSignedIn(std::map<std::string, infoBlock*> &b);
+void writeOut(std::map<std::string, infoBlock*> &b);
 
 timestamp monthDayYear();
 timestamp hourMinuteTime();

@@ -2,3 +2,5 @@
 SignInMan
 .vimrc
 :wq
+Sign_in_sheet_*
+.~lock*
